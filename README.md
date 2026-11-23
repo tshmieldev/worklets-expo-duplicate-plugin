@@ -23,28 +23,25 @@ npx patch-package
 NODE_OPTIONS='--require ./probe.js' npx expo export --platform ios --dev --clear --max-workers 1
 ```
 
-`probe.js` is not part of the app. It is preloaded into each process and prints once every time Babel creates an instance of the worklets plugin, with its options.
+`probe.js` is not part of the app. It is preloaded into each process and prints one line each time a worklets plugin instance starts transforming `App.js`, with that instance's options.
 
 ## Output
 
 ```
-[pid 95378] worklets plugin instance, options: {"bundleMode":true,"strictGlobal":true}
-[pid 95378] worklets plugin instance, options: {}
-[pid 95378] worklets plugin instance, options: {}
-[pid 95378] worklets plugin instance, options: {}
-[pid 95378] worklets plugin instance, options: {}
-iOS Bundled 3468ms index.js (714 modules)
+worklets plugin transforms App.js, options: {"bundleMode":true,"strictGlobal":true}
+worklets plugin transforms App.js, options: {}
+iOS Bundled 3745ms index.js (714 modules)
 ```
 
-The instance with options comes from `babel.config.js`. Every `{}` instance is the copy added by `babel-preset-expo`; Babel creates it again for each preset configuration it builds.
+The first line is the plugin from `babel.config.js`. The second is the copy added by `babel-preset-expo`.
 
 ## Control
 
 Change the preset to `['babel-preset-expo', { worklets: false }]` and run the same command:
 
 ```
-[pid 95558] worklets plugin instance, options: {"bundleMode":true,"strictGlobal":true}
-iOS Bundled 3347ms index.js (714 modules)
+worklets plugin transforms App.js, options: {"bundleMode":true,"strictGlobal":true}
+iOS Bundled 3222ms index.js (714 modules)
 ```
 
 ## Versions
