@@ -1,14 +1,19 @@
 {
   "name": "worklets-expo-duplicate-plugin",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "repro": "node repro.js",
-    "control": "PRESET_WORKLETS_FALSE=1 node repro.js"
+    "repro": "NODE_OPTIONS='--require ./probe.js' expo export --platform ios --dev --clear --max-workers 1 --output-dir dist",
+    "control": "PRESET_WORKLETS_FALSE=1 NODE_OPTIONS='--require ./probe.js' expo export --platform ios --dev --clear --max-workers 1 --output-dir dist",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "@babel/core": "7.29.13",
-    "babel-preset-expo": "58.0.26",
-    "react-native-worklets": "0.13.0",
-    "react-refresh": "0.19.0"
+    "expo": "^58.0.26",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-worklets": "0.13.0"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
   }
 }
